@@ -5,48 +5,48 @@ class DishDetail extends Component {
   renderDish(dish) {
     if (dish != null) {
       return (
-        <Card>
-          <CardImg top src={dish.image} alt={dish.name} />
-          <CardBody>
-            <CardTitle>{dish.name}</CardTitle>
-            <CardText>{dish.description}</CardText>
-          </CardBody>
-        </Card>
+        <div className="col-12 col-md-5 m-1">
+          <Card>
+            <CardImg top src={dish.image} alt={dish.name} />
+            <CardBody>
+              <CardTitle>{dish.name}</CardTitle>
+              <CardText>{dish.description}</CardText>
+            </CardBody>
+          </Card>
+        </div>
       );
-    } else return <div></div>;
+    } else return <div />;
+  }
+
+  componentDidMount() {
+    console.log("DishDetail Component componentDidMount invoked");
+  }
+  componentDidUpdate() {
+    console.log("DishDetail Component componentDidUpdate invoked");
   }
 
   renderComments(comments) {
     if (comments != null) {
-      const commentList = comments.comments.map((comment) => {
-        return (
-          <React.Fragment>
-            <li
-              key={comment.id}
-              style={{
-                listStyle: "none",
-              }}
-            >
-              <p>{comment.comment}</p>
-              <p>
-                -- <span>{comment.author}</span>,&nbsp;
-                <span>
-                  {new Intl.DateTimeFormat("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "2-digit",
-                  }).format(new Date(Date.parse(comment.date)))}
-                </span>
-              </p>
-            </li>
-          </React.Fragment>
-        );
-      });
-
       return (
-        <div>
+        <div className="col-12 col-md-5 m-1">
           <h4>Comments</h4>
-          <div>{commentList}</div>
+          <ul className="list-unstyled">
+            {comments.comments.map((comment) => {
+              return (
+                <li key={comment.id}>
+                  <p>{comment.comment}</p>
+                  <p>
+                    -- {comment.author},&nbsp;
+                    {new Intl.DateTimeFormat("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                    }).format(new Date(Date.parse(comment.date)))}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       );
     } else {
@@ -55,18 +55,18 @@ class DishDetail extends Component {
   }
 
   render() {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="col-12 col-md-5 m-1">
+    console.log("DishDetail Component render invoked");
+
+    if (this.props.dish != null) {
+      return (
+        <div className="container">
+          <div className="row">
             {this.renderDish(this.props.dish)}
-          </div>
-          <div className="col-12 col-md-5 m-1">
             {this.renderComments(this.props.dish)}
           </div>
         </div>
-      </div>
-    );
+      );
+    } else return <div />;
   }
 }
 
