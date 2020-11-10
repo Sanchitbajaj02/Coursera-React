@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardImg,
-  CardImgOverlay,
-  CardText,
-  CardBody,
-  CardTitle,
-} from "reactstrap";
+import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
 
 class DishDetail extends Component {
   renderDish(dish) {
@@ -25,24 +18,24 @@ class DishDetail extends Component {
 
   renderComments(comments) {
     if (comments != null) {
-      const commentList = comments.comments.map((comm) => {
+      const commentList = comments.comments.map((comment) => {
         return (
           <React.Fragment>
             <li
-              key={comm.id}
+              key={comment.id}
               style={{
                 listStyle: "none",
               }}
             >
-              <p>{comm.comment}</p>
+              <p>{comment.comment}</p>
               <p>
-                -- <span>{comm.author}</span>,&nbsp;
+                -- <span>{comment.author}</span>,&nbsp;
                 <span>
-                  {new Date(comm.date).toLocaleDateString([], {
+                  {new Intl.DateTimeFormat("en-US", {
                     year: "numeric",
                     month: "short",
                     day: "2-digit",
-                  })}
+                  }).format(new Date(Date.parse(comment.date)))}
                 </span>
               </p>
             </li>
@@ -51,10 +44,10 @@ class DishDetail extends Component {
       });
 
       return (
-        <Card>
+        <div>
           <h4>Comments</h4>
           <div>{commentList}</div>
-        </Card>
+        </div>
       );
     } else {
       return <div />;
@@ -63,14 +56,16 @@ class DishDetail extends Component {
 
   render() {
     return (
-      <>
-        <div className="col-12 col-md-5 m-1">
-          {this.renderDish(this.props.details)}
+      <div className="container">
+        <div className="row">
+          <div className="col-12 col-md-5 m-1">
+            {this.renderDish(this.props.dish)}
+          </div>
+          <div className="col-12 col-md-5 m-1">
+            {this.renderComments(this.props.dish)}
+          </div>
         </div>
-        <div className="col-12 col-md-5 m-1">
-          {this.renderComments(this.props.details)}
-        </div>
-      </>
+      </div>
     );
   }
 }
@@ -81,12 +76,11 @@ export default DishDetail;
 Another way of writing the date in react
 
 {
-  new Intl.DateTimeFormat("en-US", {
+  new Date(comment.date).toLocaleDateString([], {
     year: "numeric",
     month: "short",
-    day: "2-digit"
+    day: "2-digit",
   })
-  .format(new Date(Date.parse(comm.date)))
 }
 
 */
