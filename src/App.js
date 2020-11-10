@@ -12,10 +12,11 @@ class App extends Component {
       dishes: DISHES,
     };
   }
+
   render() {
     return (
       <div>
-        <Navbar dark sticky="top" color="info">
+        <Navbar dark sticky="top" color="primary">
           <div className="container">
             <NavbarBrand href="/">Ristorante Con Fusion</NavbarBrand>
           </div>
