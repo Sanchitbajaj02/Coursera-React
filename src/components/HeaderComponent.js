@@ -54,14 +54,6 @@ class Header extends React.Component {
         " Remember: " +
         this.remember.checked
     );
-    console.log(
-      "Username: " +
-        this.username.value +
-        " Password: " +
-        this.password.value +
-        " Remember: " +
-        this.remember.checked
-    );
     event.preventDefault();
   }
 
@@ -105,7 +97,7 @@ class Header extends React.Component {
               </Nav>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <Button ouline onClick={this.toggleModal}>
+                  <Button ouline onClick={this.toggleModal} color="primary">
                     <span className="fa fa-sign-in fa-lg"></span> Login
                   </Button>
                 </NavItem>
@@ -156,12 +148,12 @@ class Header extends React.Component {
                   <Input
                     type="checkbox"
                     name="remember"
-                    innerRef={(input) => (this.username = input)}
+                    innerRef={(input) => (this.remember = input)}
                   />{" "}
                   Remember me
                 </Label>
               </FormGroup>
-              <Button type="submit" value="Submit" className="bg-primary">
+              <Button type="submit" value="Submit" color="primary">
                 Login
               </Button>
             </Form>
