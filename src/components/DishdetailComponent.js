@@ -20,6 +20,46 @@ import { LocalForm, Control, Errors } from "react-redux-form";
 const maxLength = (len) => (val) => !val || val.length <= len;
 const minLength = (len) => (val) => val && val.length >= len;
 
+function RenderDish({ dish }) {
+  return (
+    <div className="col-12 col-md-5 m-1">
+      <Card>
+        <CardImg top src={dish.image} alt={dish.name} />
+        <CardBody>
+          <CardTitle>{dish.name}</CardTitle>
+          <CardText>{dish.description}</CardText>
+        </CardBody>
+      </Card>
+    </div>
+  );
+}
+
+function RenderComments({ comments, addComment, dishId }) {
+  return (
+    <div className="col-12 col-md-5 m-1">
+      <h4>Comments</h4>
+      <ul className="list-unstyled">
+        {comments.map((comment) => {
+          return (
+            <li key={comment.id}>
+              <p>{comment.comment}</p>
+              <p>
+                -- {comment.author},&nbsp;
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                }).format(new Date(Date.parse(comment.date)))}
+              </p>
+            </li>
+          );
+        })}
+      </ul>
+      <CommentForm dishId={dishId} addComment={addComment} />
+    </div>
+  );
+}
+
 class CommentForm extends React.Component {
   constructor(props) {
     super(props);
@@ -29,6 +69,7 @@ class CommentForm extends React.Component {
     };
 
     this.toggleModal = this.toggleModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   toggleModal() {
@@ -38,13 +79,12 @@ class CommentForm extends React.Component {
   }
 
   handleSubmit(values) {
-    alert(
-      "Current State is: " +
-        JSON.stringify({
-          Author: values.author,
-          Rating: values.rating,
-          Comment: values.comment,
-        })
+    this.toggleModal();
+    this.props.addComment(
+      this.props.dishId,
+      values.rating,
+      values.author,
+      values.comment
     );
   }
 
@@ -120,46 +160,6 @@ class CommentForm extends React.Component {
   }
 }
 
-function RenderDish({ dish }) {
-  return (
-    <div className="col-12 col-md-5 m-1">
-      <Card>
-        <CardImg top src={dish.image} alt={dish.name} />
-        <CardBody>
-          <CardTitle>{dish.name}</CardTitle>
-          <CardText>{dish.description}</CardText>
-        </CardBody>
-      </Card>
-    </div>
-  );
-}
-
-function RenderComments({ comments }) {
-  return (
-    <div className="col-12 col-md-5 m-1">
-      <h4>Comments</h4>
-      <ul className="list-unstyled">
-        {comments.map((comment) => {
-          return (
-            <li key={comment.id}>
-              <p>{comment.comment}</p>
-              <p>
-                -- {comment.author},&nbsp;
-                {new Intl.DateTimeFormat("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "2-digit",
-                }).format(new Date(Date.parse(comment.date)))}
-              </p>
-            </li>
-          );
-        })}
-      </ul>
-      <CommentForm />
-    </div>
-  );
-}
-
 const DishDetail = (props) => {
   if (props.dish != null) {
     return (
@@ -178,7 +178,11 @@ const DishDetail = (props) => {
         </div>
         <div className="row">
           <RenderDish dish={props.dish} />
-          <RenderComments comments={props.comments} />
+          <RenderComments
+            comments={props.comments}
+            addComment={props.addComment}
+            dishId={props.dish.id}
+          />
         </div>
       </div>
     );
