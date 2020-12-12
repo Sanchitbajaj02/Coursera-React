@@ -199,7 +199,7 @@ export const addLeaders = (leaders) => ({
 
 // post feedback
 export const postFeedback = (feedback) => (dispatch) => {
-  feedback.date = new Date().toISOString();
+  // feedback.date = new Date().toISOString();
   // feedback.date = new Date('05 October 2011 14:48 UTC');
   return fetch(baseUrl + "feedback", {
     method: "POST",
