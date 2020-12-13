@@ -199,11 +199,15 @@ export const addLeaders = (leaders) => ({
 
 // post feedback
 export const postFeedback = (feedback) => (dispatch) => {
-  // feedback.date = new Date().toISOString();
-  // feedback.date = new Date('05 October 2011 14:48 UTC');
+  const newFeedback = Object.assign(
+    {
+      date: new Date().toISOString(),
+    },
+    feedback
+  );
   return fetch(baseUrl + "feedback", {
     method: "POST",
-    body: JSON.stringify(feedback),
+    body: JSON.stringify(newFeedback),
     headers: {
       "Content-Type": "application/json",
     },
