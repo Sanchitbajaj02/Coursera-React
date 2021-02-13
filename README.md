@@ -6,6 +6,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `json-server --watch db.json -d 2000 -p 3001`
+
+Route to the server folder and type the above command to start the server.
+json-server must be installed before starting the server.
+
 ### `yarn start`
 
 Runs the app in the development mode.\
